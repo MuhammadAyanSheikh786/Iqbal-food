@@ -3,15 +3,15 @@
 @theme inline {
   --color-primary: #EC1E26;
   --color-primary-light: #F58A8D;
-  --color-primary-lighter: #2D0A0C;
+  --color-primary-lighter: #FDE8E9;
   --color-secondary: #212529;
-  --color-bg-main: #0B0B0B;
-  --color-bg-section: #111111;
-  --color-surface: #1A1A1A;
-  --color-border: #2A2A2A;
-  --color-text-primary: #F5F5F5;
-  --color-text-secondary: #A0A0A0;
-  --color-text-muted: #6B6B6B;
+  --color-bg-main: #FFFFFF;
+  --color-bg-section: #F5F5F5;
+  --color-surface: #FFFFFF;
+  --color-border: #E8E8E8;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
   --font-sans: "Poppins", sans-serif;
   --font-brand: "Raleway Black", "Poppins", sans-serif;
   --radius-sm: 4px;
@@ -36,4 +36,35 @@
   .text-balance {
     text-wrap: balance;
   }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .animate-fade-in-up {
+    animation: fade-in-up 0.5s ease-out both;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to { background-position: 200% center; }
+}
+
+@keyframes marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
 }

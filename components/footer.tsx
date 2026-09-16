@@ -1,319 +1,253 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
-const quickLinks = [
-  { href: "#home", label: "Home" },
-  { href: "#menu", label: "Menu" },
+// ─── Links Data ───────────────────────────────────────────────────────────────
+const COMPANY_LINKS = [
   { href: "#about", label: "About Us" },
-  { href: "#testimonials", label: "Reviews" },
-  { href: "#contact", label: "Contact" },
+  { href: "#careers", label: "Careers" },
+  { href: "#blog", label: "Blog" },
+  { href: "#press", label: "Press" },
 ];
 
-const hours = [
-  { day: "Mon – Thu", time: "11:00 – 22:00" },
-  { day: "Fri – Sat", time: "11:00 – 23:00" },
-  { day: "Sunday", time: "12:00 – 21:00" },
+const HELP_LINKS = [
+  { href: "#faq", label: "FAQ" },
+  { href: "#delivery", label: "Shipping & Delivery" },
+  { href: "#returns", label: "Returns" },
+  { href: "/track/demo", label: "Track Order" },
 ];
 
-const socials = [
+const LEGAL_LINKS = [
+  { href: "#terms", label: "Terms & Conditions" },
+  { href: "#privacy", label: "Privacy Policy" },
+  { href: "#refund", label: "Refund Policy" },
+  { href: "#cancellation", label: "Cancellation Policy" },
+];
+
+const SOCIALS = [
   {
     name: "Instagram",
-    href: "#",
+    href: "https://instagram.com",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="16" height="16">
-        <rect x="3" y="3" width="18" height="18" rx="5" />
-        <circle cx="12" cy="12" r="4" />
-        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
       </svg>
     ),
   },
   {
     name: "Facebook",
-    href: "#",
+    href: "https://facebook.com",
     icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-        <path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.5 2.9h-2.3v7A10 10 0 0 0 22 12z" />
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
       </svg>
     ),
   },
   {
     name: "TikTok",
-    href: "#",
+    href: "https://tiktok.com",
     icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-        <path d="M19.6 6.3a4.8 4.8 0 0 1-3-1.1 4.8 4.8 0 0 1-1.6-3h-3.2v12.6a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.1a5.7 5.7 0 0 0-.8-.1 5.8 5.8 0 1 0 5.8 5.8V8.5a8 8 0 0 0 4.6 1.5z" />
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.78a4.85 4.85 0 0 1-1.01-.09z" />
       </svg>
     ),
   },
   {
-    name: "X",
-    href: "#",
+    name: "Twitter / X",
+    href: "https://x.com",
     icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-        <path d="M18.244 2H21.5l-7.13 8.15L23 22h-6.957l-4.49-5.857L6.4 22H3.144l7.63-8.72L2 2h7.115l4.057 5.346L18.244 2zm-2.44 18h1.86L8.27 4H6.29l9.514 16z" />
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
       </svg>
     ),
   },
 ];
 
 export default function Footer() {
-  const footerRef = useRef<HTMLElement>(null);
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
-  // Scroll reveal
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
-    );
-
-    footerRef.current
-      ?.querySelectorAll(".footer-reveal")
-      .forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
-
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
-    setSubscribed(true);
-    setTimeout(() => setSubscribed(false), 3000);
-    setEmail("");
+    if (email.trim()) {
+      setSubscribed(true);
+      setEmail("");
+      setTimeout(() => setSubscribed(false), 5000);
+    }
   };
 
   return (
-    <footer
-      id="contact"
-      ref={footerRef}
-      className="footer-section relative isolate overflow-hidden bg-secondary text-white"
-    >
-      {/* ═══════ BACKGROUND LAYERS ═══════ */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-secondary via-secondary to-black"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.05]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-          backgroundSize: "28px 28px",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-40 left-1/2 -z-10 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -bottom-40 right-0 -z-10 h-[500px] w-[500px] rounded-full bg-amber-500/[0.08] blur-3xl"
-      />
-
-      {/* Top hairline accent */}
-      <div
-        aria-hidden
-        className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent"
-      />
-
-      {/* ═══════ NEWSLETTER CTA ═══════ */}
-      <div className="mx-auto max-w-7xl px-4 pt-16 sm:px-6 lg:px-8 lg:pt-20">
-        <div className="footer-reveal relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-8 backdrop-blur-sm md:p-12 lg:p-14">
-          {/* Decorative blobs */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full bg-primary/20 blur-3xl"
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -bottom-20 -left-10 h-60 w-60 rounded-full bg-amber-500/15 blur-3xl"
-          />
-
-          <div className="relative flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
-            <div className="max-w-xl">
-              <div className="mb-4 flex items-center gap-3">
-                <span className="h-px w-10 bg-primary" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
-                  Stay Hungry
-                </span>
-              </div>
-              <h3 className="text-balance text-3xl font-bold leading-[1.05] tracking-[-0.02em] sm:text-4xl md:text-[2.5rem]">
-                Get a taste of{" "}
-                <span className="bg-gradient-to-r from-primary to-amber-400 bg-clip-text text-transparent">
-                  what&apos;s cooking
-                </span>
-                <span className="text-amber-400">.</span>
-              </h3>
-              <p className="mt-4 max-w-md text-sm leading-relaxed text-white/65 md:text-base">
-                New menu drops, exclusive offers, and behind-the-grill stories.
-                Delivered hot to your inbox.
-              </p>
-            </div>
-
-            <form
-              onSubmit={handleSubscribe}
-              className="flex w-full max-w-md flex-col gap-3 sm:flex-row lg:flex-shrink-0"
-            >
-              <div className="relative flex-1">
-                <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-white/40">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <rect x="3" y="5" width="18" height="14" rx="2" />
-                    <polyline points="3 7 12 13 21 7" />
-                  </svg>
-                </span>
+    <footer id="contact" className="bg-[#0f0f0f] text-gray-400 text-xs pt-16 pb-8 border-t border-white/5">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* ══════════════════════════════════════════════════════════════════════
+            TOP ROW: 4 COLUMNS (Stay Updated | App Badges | Food Graphic | Brand Logo)
+        ══════════════════════════════════════════════════════════════════════ */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 items-start">
+          {/* Column 1: Stay Updated! */}
+          <div>
+            <h3 className="text-white font-bold text-sm sm:text-base mb-2 flex items-center gap-1.5">
+              <span>Stay Updated!</span>
+              <span className="text-primary text-base">✨</span>
+            </h3>
+            <p className="text-gray-400 text-xs leading-relaxed mb-3.5">
+              Subscribe to get exclusive offers, foodie deals &amp; updates.
+            </p>
+            <form onSubmit={handleSubscribe} className="space-y-2">
+              <div className="flex items-center gap-2">
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your@email.com"
+                  placeholder="Enter your email"
                   required
-                  className="w-full rounded-full border border-white/15 bg-white/5 py-3.5 pl-11 pr-4 text-sm text-white placeholder:text-white/40 backdrop-blur transition-all focus:border-primary focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-white placeholder-gray-500 text-xs focus:outline-none focus:border-primary w-full transition-colors"
                 />
+                <button
+                  type="submit"
+                  className="bg-primary hover:bg-red-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition-all shadow-sm active:scale-95 whitespace-nowrap cursor-pointer"
+                >
+                  Subscribe
+                </button>
               </div>
-              <button
-                type="submit"
-                className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-bold uppercase tracking-[0.1em] text-white shadow-lg shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/50 active:translate-y-0 active:scale-[0.98]"
-              >
-                {subscribed ? (
-                  <>
-                    Subscribed
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </>
-                ) : (
-                  <>
-                    Subscribe
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="transition-transform duration-300 group-hover:translate-x-1"
-                    >
-                      <path d="M5 12h14" />
-                      <path d="m12 5 7 7-7 7" />
-                    </svg>
-                  </>
-                )}
-              </button>
+              {subscribed && (
+                <p className="text-[11px] text-green-400 font-medium animate-fade-in-up">
+                  ✓ You&apos;re subscribed to exclusive foodie deals!
+                </p>
+              )}
             </form>
           </div>
-        </div>
-      </div>
 
-      {/* ═══════ MAIN GRID ═══════ */}
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-        <div className="grid grid-cols-2 gap-10 md:grid-cols-12 md:gap-8 lg:gap-12">
-          {/* Brand column */}
-          <div className="footer-reveal col-span-2 md:col-span-12 lg:col-span-4">
-            <Link
-              href="#home"
-              className="group inline-flex items-center gap-2.5"
-              aria-label="AM Foods home"
-            >
-              <span className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-white shadow-lg shadow-primary/30 transition-transform duration-500 group-hover:rotate-12">
-                <span className="text-base font-bold">AM</span>
-              </span>
-              <span className="text-2xl font-bold tracking-tight">
-                Foods<span className="text-primary">.</span>
-              </span>
-            </Link>
-
-            <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/65 md:text-[15px]">
-              Premium fast food crafted with passion. Quality ingredients, bold
-              flavors, and unforgettable taste — every single time.
+          {/* Column 2: Download Our App */}
+          <div>
+            <h3 className="text-white font-bold text-sm sm:text-base mb-2 flex items-center gap-1.5">
+              <span>Download Our App</span>
+              <span className="text-primary">📱</span>
+            </h3>
+            <p className="text-gray-400 text-xs leading-relaxed mb-3.5">
+              Get the app for a faster &amp; better experience.
             </p>
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-2.5">
+              {/* App Store */}
+              <a
+                href="#app-store"
+                className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-primary/50 rounded-xl px-3.5 py-2 transition-all group"
+              >
+                <svg className="w-5 h-5 text-white flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.58-.71.97-1.7.86-2.69-.83.03-1.85.55-2.44 1.25-.52.6-.97 1.57-.85 2.53.93.07 1.87-.49 2.43-1.09z" />
+                </svg>
+                <div className="text-left leading-tight">
+                  <div className="text-[9px] uppercase tracking-wider text-gray-400">Download on the</div>
+                  <div className="text-xs font-bold text-white group-hover:text-primary transition-colors">App Store</div>
+                </div>
+              </a>
 
-            {/* Trust pills */}
-            <div className="mt-7 flex flex-wrap items-center gap-2">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5">
-                <span className="text-amber-400">
-                  <svg
-                    width="11"
-                    height="11"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                  </svg>
-                </span>
-                <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-white/80">
-                  4.9 · 2.3k Reviews
-                </span>
-              </div>
-              <div className="rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-white/80">
-                Award Winning
-              </div>
+              {/* Google Play */}
+              <a
+                href="#google-play"
+                className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-primary/50 rounded-xl px-3.5 py-2 transition-all group"
+              >
+                <svg className="w-5 h-5 text-white flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M3.609 1.814L13.793 12 3.61 22.186a2.036 2.036 0 0 1-.22-.93V2.744c0-.348.08-.667.219-.93zm11.306 11.307L6.84 21.196l8.075-8.075zm.94-1.062l2.368-1.368c.846-.488.846-1.288 0-1.776L15.855 7.55l-1.92 1.92 1.92 2.59zM6.84 2.804l8.075 8.075-8.075-8.075z" />
+                </svg>
+                <div className="text-left leading-tight">
+                  <div className="text-[9px] uppercase tracking-wider text-gray-400">GET IT ON</div>
+                  <div className="text-xs font-bold text-white group-hover:text-primary transition-colors">Google Play</div>
+                </div>
+              </a>
             </div>
+          </div>
 
-            {/* Socials */}
-            <div className="mt-7">
-              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.22em] text-white/50">
-                Follow Us
-              </p>
-              <div className="flex flex-wrap gap-2.5">
-                {socials.map((s) => (
-                  <a
-                    key={s.name}
-                    href={s.href}
-                    aria-label={s.name}
-                    className="group flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-white/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:bg-primary hover:text-white hover:shadow-lg hover:shadow-primary/30"
-                  >
-                    {s.icon}
-                  </a>
-                ))}
+          {/* Column 3: Center Food Graphic / Signature Dish Thumbnail */}
+          <div>
+            <div className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/10 rounded-2xl p-3.5 flex items-center gap-3.5 group hover:border-primary/40 transition-all">
+              <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 bg-white/5 shadow-inner">
+                <Image
+                  src="https://images.unsplash.com/photo-1606755456206-b25206cde27e?w=300&q=80"
+                  alt="Signature Crispy Chicken"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  sizes="80px"
+                />
+                <span className="absolute top-1 left-1 bg-primary text-white text-[9px] font-black uppercase px-1.5 py-0.5 rounded-md">
+                  HOT
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <div className="flex items-center gap-1 text-amber-400 text-[11px] font-bold mb-0.5">
+                  <span>★★★★★</span>
+                  <span className="text-white text-[10px] ml-0.5">4.9</span>
+                </div>
+                <p className="text-white font-bold text-xs uppercase tracking-tight">
+                  Crispy Broast Combo
+                </p>
+                <p className="text-[11px] text-gray-400 mt-0.5 line-clamp-2 leading-tight">
+                  Quarter leg &amp; chest, signature spices with garlic mayo
+                </p>
+                <p className="text-primary font-bold text-[11px] mt-1">Chef&apos;s Special</p>
               </div>
             </div>
           </div>
 
-          {/* Explore */}
-          <div className="footer-reveal col-span-1 md:col-span-4 lg:col-span-2">
-            <h3 className="mb-5 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
-              <span className="h-px w-6 bg-primary" />
-              Navigate
-            </h3>
-            <ul className="space-y-3">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
+          {/* Column 4: Brand Logo & Social Icons */}
+          <div className="flex flex-col">
+            <div className="flex items-center gap-2.5 mb-2.5">
+              <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-md shadow-red-950/40 flex-shrink-0">
+                <span className="text-white font-black text-sm tracking-wider">IF</span>
+              </div>
+              <div>
+                <h4 className="font-black uppercase text-white text-base tracking-wide leading-none">
+                  Iqbal Food
+                </h4>
+                <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-primary mt-1">
+                  RESTAURANT
+                </p>
+              </div>
+            </div>
+            <p className="text-gray-400 text-xs leading-relaxed mb-4">
+              Good food, great taste &amp; fast delivery at your doorstep.
+            </p>
+            <div className="flex items-center gap-2">
+              {SOCIALS.map((s) => (
+                <a
+                  key={s.name}
+                  href={s.href}
+                  aria-label={s.name}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-gray-400 hover:border-primary hover:text-primary hover:bg-primary/10 transition-all active:scale-95"
+                >
+                  {s.icon}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ══════════════════════════════════════════════════════════════════════
+            DIVIDER
+        ══════════════════════════════════════════════════════════════════════ */}
+        <div className="border-t border-white/10 my-10" />
+
+        {/* ══════════════════════════════════════════════════════════════════════
+            LINKS ROW: 4 COLUMNS (Company | Help | Legal | Contact Us + Script)
+        ══════════════════════════════════════════════════════════════════════ */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+          {/* Column 1: COMPANY */}
+          <div>
+            <p className="text-white font-bold text-xs uppercase tracking-wider mb-3.5">
+              Company
+            </p>
+            <ul className="space-y-2.5">
+              {COMPANY_LINKS.map((link) => (
+                <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="group inline-flex items-center gap-2 text-sm text-white/65 transition-colors duration-300 hover:text-white"
+                    className="text-gray-400 hover:text-white transition-colors text-xs font-medium"
                   >
-                    <span className="h-px w-0 bg-primary transition-all duration-300 group-hover:w-4" />
                     {link.label}
                   </Link>
                 </li>
@@ -321,205 +255,101 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Hours */}
-          <div className="footer-reveal col-span-1 md:col-span-4 lg:col-span-2">
-            <h3 className="mb-5 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
-              <span className="h-px w-6 bg-primary" />
-              Hours
-            </h3>
-            <ul className="space-y-3 text-sm text-white/65">
-              {hours.map((h) => (
-                <li
-                  key={h.day}
-                  className="flex items-center justify-between gap-3"
-                >
-                  <span>{h.day}</span>
-                  <span className="text-white/85">{h.time}</span>
+          {/* Column 2: HELP */}
+          <div>
+            <p className="text-white font-bold text-xs uppercase tracking-wider mb-3.5">
+              Help
+            </p>
+            <ul className="space-y-2.5">
+              {HELP_LINKS.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="text-gray-400 hover:text-white transition-colors text-xs font-medium"
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ))}
-              <li className="mt-4 inline-flex items-center gap-2 rounded-full bg-amber-400/10 px-3 py-1.5">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-70" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-400" />
-                </span>
-                <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-amber-400">
-                  Open Now
-                </span>
-              </li>
             </ul>
           </div>
 
-          {/* Visit */}
-          <div className="footer-reveal col-span-2 md:col-span-12 lg:col-span-2">
-            <h3 className="mb-5 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
-              <span className="h-px w-6 bg-primary" />
-              Visit Us
-            </h3>
-            <ul className="space-y-4 text-sm text-white/65">
-              <li className="flex items-start gap-3">
-                <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary">
-                  <svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
-                </span>
-                <span>
-                  123 Flavor Street
-                  <br />
-                  Foodville, FC 10001
-                </span>
-              </li>
-              <li>
-                <a
-                  href="tel:+15551234567"
-                  className="group flex items-center gap-3 text-white/85 transition-colors hover:text-primary"
-                >
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
-                    <svg
-                      width="13"
-                      height="13"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
-                    </svg>
-                  </span>
-                  (555) 123-4567
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:hello@amfoods.com"
-                  className="group flex items-center gap-3 text-white/85 transition-colors hover:text-primary"
-                >
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
-                    <svg
-                      width="13"
-                      height="13"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <rect x="3" y="5" width="18" height="14" rx="2" />
-                      <polyline points="3 7 12 13 21 7" />
-                    </svg>
-                  </span>
-                  hello@amfoods.com
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* ═══════ MEGA WORDMARK ═══════ */}
-        <div
-          aria-hidden
-          className="footer-reveal footer-mega mt-16 select-none overflow-hidden md:mt-20"
-        >
-          <div className="flex items-center justify-center">
-            <span
-              className="text-center font-bold uppercase leading-none tracking-[-0.04em]"
-              style={{
-                fontSize: "clamp(4rem, 18vw, 14rem)",
-                background:
-                  "linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.02) 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              AM Foods
-            </span>
-          </div>
-        </div>
-
-        {/* ═══════ BOTTOM BAR ═══════ */}
-        <div className="footer-reveal mt-8 border-t border-white/10 pt-7 md:mt-10 md:pt-8">
-          <div className="flex flex-col items-center justify-between gap-5 text-center md:flex-row md:text-left">
-            <p className="text-xs text-white/45">
-              &copy; {new Date().getFullYear()} AM Foods Co. · All rights
-              reserved · Made with{" "}
-              <span className="text-primary">♥</span> for food lovers
+          {/* Column 3: LEGAL */}
+          <div>
+            <p className="text-white font-bold text-xs uppercase tracking-wider mb-3.5">
+              Legal
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-              <a
-                href="#"
-                className="text-xs text-white/45 transition-colors hover:text-white/80"
-              >
-                Privacy Policy
-              </a>
-              <span
-                aria-hidden
-                className="hidden h-1 w-1 rounded-full bg-white/20 md:inline-block"
-              />
-              <a
-                href="#"
-                className="text-xs text-white/45 transition-colors hover:text-white/80"
-              >
-                Terms of Service
-              </a>
-              <span
-                aria-hidden
-                className="hidden h-1 w-1 rounded-full bg-white/20 md:inline-block"
-              />
-              <a
-                href="#"
-                className="text-xs text-white/45 transition-colors hover:text-white/80"
-              >
-                Accessibility
-              </a>
+            <ul className="space-y-2.5">
+              {LEGAL_LINKS.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="text-gray-400 hover:text-white transition-colors text-xs font-medium"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 4: CONTACT US + Decorative Script */}
+          <div>
+            <p className="text-white font-bold text-xs uppercase tracking-wider mb-3.5">
+              Contact Us
+            </p>
+            <div className="space-y-2 text-xs text-gray-400 leading-relaxed">
+              <p className="flex items-center gap-1.5">
+                <span className="text-primary font-bold">📞</span>
+                <a href="tel:111-47225-11" className="hover:text-white transition-colors">
+                  111-IQBAL-11
+                </a>
+              </p>
+              <p className="flex items-center gap-1.5">
+                <span className="text-primary font-bold">✉️</span>
+                <a href="mailto:hello@iqbalfood.com" className="hover:text-white transition-colors">
+                  hello@iqbalfood.com
+                </a>
+              </p>
+              <p className="flex items-start gap-1.5">
+                <span className="text-primary font-bold mt-0.5">📍</span>
+                <span>123 Flavor Street, Foodville</span>
+              </p>
+              <p className="flex items-center gap-1.5 text-[11px] text-gray-500 pt-1">
+                <span>🕐 Mon – Sun: 11:00 AM – 11:00 PM</span>
+              </p>
+            </div>
+
+            {/* Right decorative script: "Good Food ♡ Good Mood" in warm amber/gold script */}
+            <div className="mt-5 pt-4 border-t border-white/5">
+              <p className="font-serif italic text-amber-400 text-lg sm:text-xl font-medium tracking-wide drop-shadow-sm select-none">
+                Good Food ♡ Good Mood
+              </p>
             </div>
           </div>
         </div>
+
+        {/* ══════════════════════════════════════════════════════════════════════
+            BOTTOM COPYRIGHT
+        ══════════════════════════════════════════════════════════════════════ */}
+        <div className="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+          <p className="text-[11px] text-gray-500">
+            Copyright &copy; {new Date().getFullYear()} Iqbal Food. All rights reserved.
+          </p>
+          <div className="flex items-center gap-4 text-[11px] text-gray-500">
+            <span className="inline-flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />
+              100% Halal Certified
+            </span>
+            <span>·</span>
+            <span>Fast 30-Min Delivery</span>
+            <span>·</span>
+            <a href="#menu" className="text-primary hover:underline font-semibold">
+              Back to Top ↑
+            </a>
+          </div>
+        </div>
       </div>
-
-      {/* ═══════ ANIMATIONS ═══════ */}
-      <style jsx>{`
-        .footer-reveal {
-          opacity: 0;
-          transform: translateY(30px);
-          transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-            transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        .footer-reveal.is-visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
-
-        @keyframes megaFloat {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-        .footer-mega.is-visible {
-          animation: megaFloat 5s ease-in-out infinite;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .footer-reveal,
-          .footer-mega {
-            animation: none !important;
-            transition: none !important;
-            opacity: 1 !important;
-            transform: none !important;
-          }
-        }
-      `}</style>
     </footer>
   );
 }
