@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme inline {
   --color-primary: #EC1E26;
   --color-primary-light: #F58A8D;
@@ -29,6 +31,11 @@
     font-family: var(--font-sans);
     background: var(--color-bg-main);
     color: var(--color-text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  html.dark body {
+    background-color: #0d0d0d;
+    color: #f3f4f6;
   }
 }
 

@@ -5,11 +5,63 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 import { useAuth } from "@/lib/auth-context";
+import { useTheme } from "@/lib/theme-context";
 import { menuItems } from "@/lib/menu-data";
 import { useState, useEffect, useRef } from "react";
 import { Cinzel } from "next/font/google";
 
 const cinzel = Cinzel({ subsets: ["latin"], weight: ["700", "900"] });
+
+function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme();
+
+  return (
+    <button
+      type="button"
+      onClick={toggleTheme}
+      aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+      className="w-10 h-10 rounded-full text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary hover:bg-red-50 dark:hover:bg-neutral-800 flex items-center justify-center transition-all duration-200 cursor-pointer"
+      title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+    >
+      {theme === "dark" ? (
+        <svg
+          width="19"
+          height="19"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-amber-400"
+        >
+          <circle cx="12" cy="12" r="5" />
+          <line x1="12" y1="1" x2="12" y2="3" />
+          <line x1="12" y1="21" x2="12" y2="23" />
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+          <line x1="1" y1="12" x2="3" y2="12" />
+          <line x1="21" y1="12" x2="23" y2="12" />
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </svg>
+      ) : (
+        <svg
+          width="19"
+          height="19"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      )}
+    </button>
+  );
+}
 
 export default function Header() {
   const { count, addItem } = useCart();
@@ -90,23 +142,23 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm transition-all">
+      <header className="sticky top-0 z-50 w-full bg-white/95 dark:bg-[#121212]/95 backdrop-blur-md border-b border-gray-100 dark:border-neutral-800 shadow-sm transition-colors">
         <div className="h-16 sm:h-[72px] flex items-center justify-between px-4 sm:px-8 max-w-7xl mx-auto">
           {/* ── Left: Logo ── */}
           <Link
             href="/"
             className="flex items-center gap-2.5 sm:gap-3 group flex-shrink-0"
           >
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-primary text-white flex items-center justify-center font-black text-base sm:text-lg shadow-md shadow-red-200 group-hover:scale-105 transition-transform duration-200">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-primary text-white flex items-center justify-center font-black text-base sm:text-lg shadow-md shadow-red-200 dark:shadow-none group-hover:scale-105 transition-transform duration-200">
               <span>IF</span>
             </div>
             <div className="flex flex-col">
               <span
-                className={`${cinzel.className} text-base sm:text-xl font-bold tracking-wider text-gray-900 leading-tight group-hover:text-primary transition-colors`}
+                className={`${cinzel.className} text-base sm:text-xl font-bold tracking-wider text-gray-900 dark:text-white leading-tight group-hover:text-primary transition-colors`}
               >
                 Iqbal Food
               </span>
-              <span className="text-[9px] sm:text-[10px] tracking-[0.25em] font-bold text-gray-400 uppercase leading-none mt-0.5">
+              <span className="text-[9px] sm:text-[10px] tracking-[0.25em] font-bold text-gray-400 dark:text-gray-400 uppercase leading-none mt-0.5">
                 RESTAURANT
               </span>
             </div>
@@ -119,52 +171,52 @@ export default function Header() {
               className={`text-sm font-semibold transition-colors duration-200 relative py-1 ${
                 isHome
                   ? "text-primary font-bold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary after:rounded-full"
-                  : "text-gray-600 hover:text-primary"
+                  : "text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary"
               }`}
             >
               Home
             </Link>
             <Link
               href="/#menu"
-              className="text-sm font-semibold text-gray-600 hover:text-primary transition-colors duration-200 py-1"
+              className="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-200 py-1"
             >
               Menu
             </Link>
             <Link
               href="/#menu"
-              className="text-sm font-semibold text-gray-600 hover:text-primary transition-colors duration-200 py-1"
+              className="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-200 py-1"
             >
               Categories
             </Link>
             <Link
               href="/#promo"
-              className="text-sm font-semibold text-gray-600 hover:text-primary transition-colors duration-200 py-1"
+              className="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-200 py-1"
             >
               Offers
             </Link>
             <button
               type="button"
               onClick={() => setAboutOpen(true)}
-              className="text-sm font-semibold text-gray-600 hover:text-primary transition-colors duration-200 py-1 cursor-pointer"
+              className="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-200 py-1 cursor-pointer"
             >
               About Us
             </button>
             <Link
               href="#contact"
-              className="text-sm font-semibold text-gray-600 hover:text-primary transition-colors duration-200 py-1"
+              className="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-200 py-1"
             >
               Contact
             </Link>
           </nav>
 
-          {/* ── Right: Search + Profile + Cart + Hamburger ── */}
-          <div className="flex items-center gap-1.5 sm:gap-2.5">
+          {/* ── Right: Search + Theme Toggle + Profile + Cart + Hamburger ── */}
+          <div className="flex items-center gap-1 sm:gap-2">
             {/* Search Button */}
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
               aria-label="Search menu"
-              className="w-10 h-10 rounded-full text-gray-600 hover:text-primary hover:bg-red-50 flex items-center justify-center transition-all duration-200"
+              className="w-10 h-10 rounded-full text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary hover:bg-red-50 dark:hover:bg-neutral-800 flex items-center justify-center transition-all duration-200 cursor-pointer"
             >
               <svg
                 width="19"
@@ -181,6 +233,9 @@ export default function Header() {
               </svg>
             </button>
 
+            {/* Light / Dark Mode Toggle */}
+            <ThemeToggle />
+
             {/* User Profile / Sign In */}
             <div className="relative" ref={userMenuRef}>
               {user ? (
@@ -188,7 +243,7 @@ export default function Header() {
                   type="button"
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                   aria-label="User menu"
-                  className="w-10 h-10 rounded-full border-2 border-primary/30 hover:border-primary flex items-center justify-center bg-red-50 text-primary font-bold text-sm transition-all duration-200 overflow-hidden"
+                  className="w-10 h-10 rounded-full border-2 border-primary/30 hover:border-primary flex items-center justify-center bg-red-50 dark:bg-red-950/40 text-primary font-bold text-sm transition-all duration-200 overflow-hidden cursor-pointer"
                 >
                   {user.name ? (
                     <span>{user.name.charAt(0).toUpperCase()}</span>
@@ -213,7 +268,7 @@ export default function Header() {
                   type="button"
                   onClick={signInWithGoogle}
                   aria-label="Sign in with Google"
-                  className="w-10 h-10 rounded-full text-gray-600 hover:text-primary hover:bg-red-50 flex items-center justify-center transition-all duration-200"
+                  className="w-10 h-10 rounded-full text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary hover:bg-red-50 dark:hover:bg-neutral-800 flex items-center justify-center transition-all duration-200 cursor-pointer"
                   title="Sign in"
                 >
                   <svg
@@ -234,12 +289,12 @@ export default function Header() {
 
               {/* Profile Dropdown Menu */}
               {userMenuOpen && user && (
-                <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 z-50 animate-fade-in-up">
-                  <div className="px-4 py-2.5 border-b border-gray-100">
-                    <p className="text-xs font-bold text-gray-900 truncate">
+                <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-xl border border-gray-100 dark:border-neutral-800 py-2 z-50 animate-fade-in-up">
+                  <div className="px-4 py-2.5 border-b border-gray-100 dark:border-neutral-800">
+                    <p className="text-xs font-bold text-gray-900 dark:text-white truncate">
                       {user.name || "Customer"}
                     </p>
-                    <p className="text-[11px] text-gray-500 truncate">
+                    <p className="text-[11px] text-gray-500 dark:text-gray-400 truncate">
                       {user.email}
                     </p>
                   </div>
@@ -247,7 +302,7 @@ export default function Header() {
                     <Link
                       href="/my-orders"
                       onClick={() => setUserMenuOpen(false)}
-                      className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-red-50 hover:text-primary transition-colors"
+                      className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-red-50 dark:hover:bg-neutral-800 hover:text-primary transition-colors"
                     >
                       <svg
                         width="15"
@@ -267,7 +322,7 @@ export default function Header() {
                       <Link
                         href="/admin"
                         onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-red-50 hover:text-primary transition-colors"
+                        className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-red-50 dark:hover:bg-neutral-800 hover:text-primary transition-colors"
                       >
                         <svg
                           width="15"
@@ -288,14 +343,14 @@ export default function Header() {
                       </Link>
                     )}
                   </div>
-                  <div className="border-t border-gray-100 pt-1">
+                  <div className="border-t border-gray-100 dark:border-neutral-800 pt-1">
                     <button
                       type="button"
                       onClick={() => {
                         signOut();
                         setUserMenuOpen(false);
                       }}
-                      className="w-full text-left flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 transition-colors"
+                      className="w-full text-left flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-neutral-800 transition-colors"
                     >
                       <svg
                         width="15"
@@ -322,7 +377,7 @@ export default function Header() {
             <Link
               href="/cart"
               aria-label="View Cart"
-              className="relative flex items-center justify-center w-10 h-10 rounded-full hover:bg-red-50 text-gray-700 hover:text-primary transition-all duration-200"
+              className="relative flex items-center justify-center w-10 h-10 rounded-full hover:bg-red-50 dark:hover:bg-neutral-800 text-gray-700 dark:text-gray-200 hover:text-primary transition-all duration-200"
             >
               <svg
                 width="20"
@@ -350,20 +405,20 @@ export default function Header() {
               type="button"
               aria-label="Toggle navigation drawer"
               onClick={() => setDrawerOpen(!drawerOpen)}
-              className="md:hidden relative flex flex-col items-center justify-center w-10 h-10 rounded-full hover:bg-red-50 transition-all duration-200"
+              className="md:hidden relative flex flex-col items-center justify-center w-10 h-10 rounded-full hover:bg-red-50 dark:hover:bg-neutral-800 transition-all duration-200 cursor-pointer"
             >
               <span
-                className={`w-5 h-[2px] bg-gray-800 rounded-full transition-all duration-300 absolute ${
+                className={`w-5 h-[2px] bg-gray-800 dark:bg-gray-200 rounded-full transition-all duration-300 absolute ${
                   drawerOpen ? "rotate-45 bg-primary" : "-translate-y-[5px]"
                 }`}
               />
               <span
-                className={`w-4 h-[2px] bg-gray-800 rounded-full transition-all duration-300 absolute ml-[4px] ${
+                className={`w-4 h-[2px] bg-gray-800 dark:bg-gray-200 rounded-full transition-all duration-300 absolute ml-[4px] ${
                   drawerOpen ? "opacity-0 translate-x-4" : "opacity-100"
                 }`}
               />
               <span
-                className={`w-5 h-[2px] bg-gray-800 rounded-full transition-all duration-300 absolute ${
+                className={`w-5 h-[2px] bg-gray-800 dark:bg-gray-200 rounded-full transition-all duration-300 absolute ${
                   drawerOpen ? "-rotate-45 bg-primary" : "translate-y-[5px]"
                 }`}
               />

@@ -111,7 +111,7 @@ const FEATURES: FeatureItem[] = [
 export default function FeaturesStrip() {
   return (
     <section aria-label="Features" className="px-4 sm:px-6 lg:px-8">
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm px-6 py-5 max-w-7xl mx-auto -mt-6 sm:-mt-8 relative z-20 mb-12">
+      <div className="bg-white dark:bg-[#161616] rounded-2xl border border-gray-100 dark:border-neutral-800 shadow-sm dark:shadow-none px-6 py-5 max-w-7xl mx-auto -mt-6 sm:-mt-8 relative z-20 mb-12 transition-colors">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
           {FEATURES.map((feature, index) => (
             <div
@@ -120,14 +120,14 @@ export default function FeaturesStrip() {
                 index === 4 ? "col-span-2 sm:col-span-1" : ""
               }`}
             >
-              <div className="w-10 h-10 rounded-full bg-red-50 text-primary flex items-center justify-center shrink-0 transition-all duration-200 group-hover:bg-primary group-hover:text-white group-hover:scale-105">
+              <div className="w-10 h-10 rounded-full bg-red-50 dark:bg-red-950/50 text-primary flex items-center justify-center shrink-0 transition-all duration-200 group-hover:bg-primary group-hover:text-white group-hover:scale-105">
                 {feature.icon}
               </div>
               <div className="min-w-0">
-                <p className="font-bold text-xs text-gray-900 leading-tight truncate">
+                <p className="font-bold text-xs text-gray-900 dark:text-white leading-tight truncate">
                   {feature.title}
                 </p>
-                <p className="text-[11px] text-gray-500 mt-0.5 leading-snug line-clamp-2">
+                <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5 leading-snug line-clamp-2">
                   {feature.description}
                 </p>
               </div>

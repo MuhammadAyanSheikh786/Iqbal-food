@@ -94,11 +94,11 @@ export default function HowItWorks() {
     <section className="max-w-7xl mx-auto px-4 py-12">
       {/* Heading & Subtitle */}
       <div className="text-center max-w-xl mx-auto">
-        <h2 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 tracking-tight leading-tight">
+        <h2 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 dark:text-white tracking-tight leading-tight">
           How It Works
         </h2>
         <div className="w-10 h-0.5 bg-primary rounded-full mx-auto mt-2.5 mb-2" />
-        <p className="text-xs sm:text-sm text-gray-500 font-normal">
+        <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-normal">
           Simple 4 steps to satisfy your cravings
         </p>
       </div>
@@ -108,7 +108,7 @@ export default function HowItWorks() {
         {steps.map((item, index) => (
           <div
             key={item.step}
-            className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md hover:border-red-100 hover:-translate-y-1 transition-all duration-200 text-center relative flex flex-col items-center group"
+            className="bg-white dark:bg-[#161616] rounded-2xl p-6 border border-gray-100 dark:border-neutral-800 shadow-sm dark:shadow-none hover:shadow-md hover:border-red-100 dark:hover:border-neutral-700 hover:-translate-y-1 transition-all duration-200 text-center relative flex flex-col items-center group"
           >
             {/* Step badge */}
             <span className="text-[10px] font-black text-primary/70 tracking-widest uppercase mb-2">
@@ -116,28 +116,28 @@ export default function HowItWorks() {
             </span>
 
             {/* Circular Icon Badge */}
-            <div className="w-14 h-14 rounded-full bg-red-50 text-primary border border-red-100 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-white group-hover:scale-105 transition-all duration-200 shadow-sm">
+            <div className="w-14 h-14 rounded-full bg-red-50 dark:bg-red-950/50 text-primary border border-red-100 dark:border-red-900/40 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-white group-hover:scale-105 transition-all duration-200 shadow-sm">
               {item.icon}
             </div>
 
             {/* Step Title */}
-            <h3 className="text-sm font-bold text-gray-900 mb-1.5">
+            <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-1.5">
               {item.title}
             </h3>
 
             {/* Step Description */}
-            <p className="text-xs text-gray-500 max-w-[200px] mx-auto text-center leading-relaxed">
+            <p className="text-xs text-gray-500 dark:text-gray-400 max-w-[200px] mx-auto text-center leading-relaxed">
               {item.description}
             </p>
 
             {/* Connector arrow between steps (visible on desktop lg only, except last step) */}
             {index < steps.length - 1 && (
               <div
-                className="hidden lg:flex absolute top-1/2 -right-4 -translate-y-1/2 w-8 items-center justify-center pointer-events-none z-20 text-gray-300"
+                className="hidden lg:flex absolute top-1/2 -right-4 -translate-y-1/2 w-8 items-center justify-center pointer-events-none z-20 text-gray-300 dark:text-neutral-700"
                 aria-hidden="true"
               >
                 <svg
-                  className="w-5 h-5 text-gray-300 group-hover:text-primary transition-colors duration-200"
+                  className="w-5 h-5 text-gray-300 dark:text-neutral-700 group-hover:text-primary transition-colors duration-200"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"

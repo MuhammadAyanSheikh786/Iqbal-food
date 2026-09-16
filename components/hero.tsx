@@ -24,20 +24,20 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="bg-[#FAF7F2] rounded-b-[32px] sm:rounded-b-[40px] overflow-hidden pt-4 sm:pt-8 pb-8 sm:pb-20 px-4 sm:px-8 border-b border-gray-100"
+      className="bg-[#FAF7F2] dark:bg-[#161616] rounded-b-[32px] sm:rounded-b-[40px] overflow-hidden pt-4 sm:pt-8 pb-8 sm:pb-20 px-4 sm:px-8 border-b border-gray-100 dark:border-neutral-800 transition-colors"
     >
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 items-center">
         {/* Left column */}
         <div className="lg:col-span-6 space-y-4 sm:space-y-6 animate-fade-in-up text-center lg:text-left">
           {/* Handwriting / italic badge */}
           <div>
-            <span className="font-serif italic text-base sm:text-xl text-gray-700 select-none">
+            <span className="font-serif italic text-base sm:text-xl text-gray-700 dark:text-gray-300 select-none">
               Delicious Food.
             </span>
           </div>
 
           {/* Giant catchy headline */}
-          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-black tracking-tight text-gray-950 leading-[1.1]">
+          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-black tracking-tight text-gray-950 dark:text-white leading-[1.1]">
             Delivered
             <span className="text-primary block sm:inline sm:ml-3 lg:block lg:ml-0">
               To You <span className="text-primary font-normal">♡</span>
@@ -45,7 +45,7 @@ export default function Hero() {
           </h1>
 
           {/* Description */}
-          <p className="text-gray-600 text-xs sm:text-base max-w-lg mx-auto lg:mx-0 leading-relaxed">
+          <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-base max-w-lg mx-auto lg:mx-0 leading-relaxed">
             Your favorite meals from Iqbal Food, prepared with premium ingredients
             and delivered fast &amp; fresh to your door.
           </p>
@@ -54,14 +54,14 @@ export default function Hero() {
           <div className="hidden sm:flex flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-1">
             <Link
               href="#menu"
-              className="bg-primary hover:bg-red-700 text-white font-bold px-7 py-3 rounded-full shadow-lg shadow-red-200 text-sm transition-all duration-200 hover:shadow-xl hover:scale-[1.02] active:scale-95 inline-flex items-center gap-2"
+              className="bg-primary hover:bg-red-700 text-white font-bold px-7 py-3 rounded-full shadow-lg shadow-red-200 dark:shadow-none text-sm transition-all duration-200 hover:shadow-xl hover:scale-[1.02] active:scale-95 inline-flex items-center gap-2"
             >
               <span>Order Now</span>
               <span className="text-base leading-none">→</span>
             </Link>
             <Link
               href="#menu"
-              className="border border-gray-300 hover:border-gray-900 bg-white text-gray-800 font-bold px-6 py-3 rounded-full text-sm transition-all duration-200 hover:bg-gray-50 active:scale-95 shadow-sm inline-flex items-center gap-2"
+              className="border border-gray-300 dark:border-neutral-700 hover:border-gray-900 dark:hover:border-white bg-white dark:bg-neutral-800 text-gray-800 dark:text-gray-100 font-bold px-6 py-3 rounded-full text-sm transition-all duration-200 hover:bg-gray-50 dark:hover:bg-neutral-700 active:scale-95 shadow-sm inline-flex items-center gap-2"
             >
               Explore Menu
             </Link>
@@ -74,7 +74,7 @@ export default function Hero() {
               {CUSTOMER_AVATARS.map((avatar, idx) => (
                 <div
                   key={idx}
-                  className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white overflow-hidden shadow-xs -ml-2 first:ml-0 ring-1 ring-black/5"
+                  className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white dark:border-neutral-800 overflow-hidden shadow-xs -ml-2 first:ml-0 ring-1 ring-black/5"
                 >
                   <Image
                     src={avatar.img}
@@ -92,7 +92,7 @@ export default function Hero() {
               <div className="flex items-center text-amber-400 text-xs sm:text-sm leading-none tracking-wide select-none">
                 ★★★★★
               </div>
-              <p className="text-[11px] sm:text-xs font-bold text-gray-800 mt-0.5">
+              <p className="text-[11px] sm:text-xs font-bold text-gray-800 dark:text-gray-200 mt-0.5">
                 10K+ Happy Customers
               </p>
             </div>
@@ -103,12 +103,12 @@ export default function Hero() {
         <div className="lg:col-span-6 relative flex items-center justify-center mt-2 lg:mt-0">
           {/* Subtle background glow */}
           <div
-            className="absolute -inset-4 bg-gradient-to-tr from-red-100/60 via-amber-100/50 to-orange-100/30 rounded-full blur-3xl -z-10 scale-95 pointer-events-none"
+            className="absolute -inset-4 bg-gradient-to-tr from-red-100/60 dark:from-red-950/40 via-amber-100/50 dark:via-amber-950/30 to-orange-100/30 dark:to-orange-950/20 rounded-full blur-3xl -z-10 scale-95 pointer-events-none"
             aria-hidden="true"
           />
 
           {/* Large hero food image container - compact on mobile */}
-          <div className="relative w-full max-w-[340px] sm:max-w-[440px] lg:max-w-[520px] aspect-[16/10] sm:aspect-[5/4] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl border-2 sm:border-4 border-white/90 group">
+          <div className="relative w-full max-w-[340px] sm:max-w-[440px] lg:max-w-[520px] aspect-[16/10] sm:aspect-[5/4] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl border-2 sm:border-4 border-white/90 dark:border-neutral-800 group">
             <Image
               src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1000&auto=format&fit=crop&q=85"
               alt="Crispy Burger & Feast from Iqbal Food"
@@ -122,8 +122,8 @@ export default function Hero() {
           </div>
 
           {/* Floating badge 1: Fast Delivery (Top Right) */}
-          <div className="bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl px-2.5 py-1.5 sm:px-4 sm:py-2.5 border border-gray-100 flex items-center gap-2 sm:gap-3 absolute -top-2 right-1 sm:top-4 sm:right-6 z-10 scale-90 sm:scale-100">
-            <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+          <div className="bg-white/95 dark:bg-[#1a1a1a]/95 backdrop-blur-md rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl px-2.5 py-1.5 sm:px-4 sm:py-2.5 border border-gray-100 dark:border-neutral-800 flex items-center gap-2 sm:gap-3 absolute -top-2 right-1 sm:top-4 sm:right-6 z-10 scale-90 sm:scale-100">
+            <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
               <svg
                 className="w-4 h-4 sm:w-5 sm:h-5"
                 viewBox="0 0 24 24"
@@ -140,23 +140,23 @@ export default function Hero() {
               </svg>
             </div>
             <div>
-              <p className="text-[10px] sm:text-xs font-bold text-gray-900 leading-tight">
+              <p className="text-[10px] sm:text-xs font-bold text-gray-900 dark:text-white leading-tight">
                 Fast Delivery
               </p>
-              <p className="text-[9px] sm:text-[11px] font-medium text-emerald-600">
+              <p className="text-[9px] sm:text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
                 Within 30 mins
               </p>
             </div>
           </div>
 
           {/* Floating badge 2: ⭐ 4.9 Rating (Bottom Left) */}
-          <div className="bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl px-2.5 py-1.5 sm:px-4 sm:py-2.5 border border-gray-100 flex items-center gap-2 sm:gap-3 absolute -bottom-2 left-1 sm:bottom-4 sm:left-6 z-10 scale-90 sm:scale-100">
-            <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center text-sm sm:text-lg flex-shrink-0 select-none">
+          <div className="bg-white/95 dark:bg-[#1a1a1a]/95 backdrop-blur-md rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl px-2.5 py-1.5 sm:px-4 sm:py-2.5 border border-gray-100 dark:border-neutral-800 flex items-center gap-2 sm:gap-3 absolute -bottom-2 left-1 sm:bottom-4 sm:left-6 z-10 scale-90 sm:scale-100">
+            <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-500 dark:text-amber-400 flex items-center justify-center text-sm sm:text-lg flex-shrink-0 select-none">
               ★
             </div>
             <div>
               <div className="flex items-center gap-1">
-                <span className="text-[10px] sm:text-xs font-black text-gray-900 leading-tight">
+                <span className="text-[10px] sm:text-xs font-black text-gray-900 dark:text-white leading-tight">
                   4.9 Rating
                 </span>
                 <span className="text-[9px] sm:text-[10px] text-gray-400 font-medium">

@@ -126,7 +126,7 @@ function FoodCard({ item, isFavorite, onToggleFavorite }: FoodCardProps) {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col p-3 relative group">
+    <div className="bg-white dark:bg-[#161616] rounded-2xl border border-gray-100 dark:border-neutral-800 shadow-sm dark:shadow-none hover:shadow-lg dark:hover:border-neutral-700 transition-all duration-300 overflow-hidden flex flex-col p-3 relative group">
       {/* Heart / Wishlist icon top right of image */}
       <button
         type="button"
@@ -135,7 +135,7 @@ function FoodCard({ item, isFavorite, onToggleFavorite }: FoodCardProps) {
           onToggleFavorite(item.id);
         }}
         aria-label={isFavorite ? "Remove from wishlist" : "Add to wishlist"}
-        className="absolute top-5 right-5 z-10 w-8 h-8 rounded-full bg-white/90 backdrop-blur-xs flex items-center justify-center text-gray-400 hover:text-primary transition-all shadow-sm active:scale-90"
+        className="absolute top-5 right-5 z-10 w-8 h-8 rounded-full bg-white/90 dark:bg-neutral-800/90 backdrop-blur-xs flex items-center justify-center text-gray-400 dark:text-gray-300 hover:text-primary transition-all shadow-sm active:scale-90 cursor-pointer"
       >
         <svg
           width="16"
@@ -146,14 +146,14 @@ function FoodCard({ item, isFavorite, onToggleFavorite }: FoodCardProps) {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={isFavorite ? "text-primary fill-primary scale-110 transition-transform" : "text-gray-400 transition-colors"}
+          className={isFavorite ? "text-primary fill-primary scale-110 transition-transform" : "text-gray-400 dark:text-gray-300 transition-colors"}
         >
           <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
         </svg>
       </button>
 
       {/* Image with 4:3 aspect ratio */}
-      <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100">
+      <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 dark:bg-neutral-800">
         <Image
           src={item.image}
           alt={item.name}
@@ -164,18 +164,18 @@ function FoodCard({ item, isFavorite, onToggleFavorite }: FoodCardProps) {
       </div>
 
       {/* Title */}
-      <h4 className="font-bold text-sm text-gray-900 truncate mt-2" title={item.name}>
+      <h4 className="font-bold text-sm text-gray-900 dark:text-white truncate mt-2" title={item.name}>
         {item.name}
       </h4>
 
       {/* Description */}
-      <p className="text-xs text-gray-500 line-clamp-1 mb-2" title={item.description}>
+      <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-1 mb-2" title={item.description}>
         {item.description}
       </p>
 
       {/* Bottom row: Price + Add to cart button */}
       <div className="flex items-center justify-between mt-auto pt-1">
-        <span className="font-bold text-base text-gray-950">{item.price}</span>
+        <span className="font-bold text-base text-gray-950 dark:text-white">{item.price}</span>
         <button
           type="button"
           onClick={handleAddToCart}
@@ -204,11 +204,11 @@ function SectionHeader({ title, subtitle }: { title: string; subtitle: string })
     <div className="flex flex-col items-start mb-4 mt-8">
       <div className="flex items-center gap-2">
         <span className="w-2 h-2 rounded-full bg-primary inline-block" />
-        <h3 className="text-xl sm:text-2xl font-black uppercase text-gray-900 tracking-tight">
+        <h3 className="text-xl sm:text-2xl font-black uppercase text-gray-900 dark:text-white tracking-tight">
           {title}
         </h3>
       </div>
-      <p className="text-xs text-gray-500 mt-0.5">{subtitle}</p>
+      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{subtitle}</p>
     </div>
   );
 }
@@ -307,7 +307,7 @@ export default function Menu() {
   }, []);
 
   return (
-    <section id="menu" className="bg-[#fcfcfc] pb-28 pt-8">
+    <section id="menu" className="bg-[#fcfcfc] dark:bg-[#0f0f0f] pb-28 pt-8 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* ══════════════════════════════════════════════════════════════════════
             SECTION 1: TOP PART - EXPLORE CATEGORIES
@@ -320,7 +320,7 @@ export default function Menu() {
                 <span className="w-1.5 h-1.5 rounded-full bg-primary inline-block" />
                 Browse By Taste
               </span>
-              <h2 className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white tracking-tight">
                 Explore Categories
               </h2>
             </div>
@@ -341,7 +341,7 @@ export default function Menu() {
               type="button"
               onClick={() => scrollCategorySlider("left")}
               aria-label="Scroll left"
-              className="hidden sm:flex absolute -left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white shadow-md border border-gray-100 items-center justify-center text-gray-700 hover:text-primary hover:border-primary/40 transition-all active:scale-95"
+              className="hidden sm:flex absolute -left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white dark:bg-neutral-800 shadow-md border border-gray-100 dark:border-neutral-700 items-center justify-center text-gray-700 dark:text-gray-200 hover:text-primary hover:border-primary/40 transition-all active:scale-95 cursor-pointer"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
             </button>
@@ -360,12 +360,12 @@ export default function Menu() {
                     onClick={() => handleSelectExploreCategory(cat)}
                     className={`flex-shrink-0 w-32 sm:w-36 rounded-2xl p-2.5 sm:p-3 text-center transition-all duration-300 flex flex-col items-center cursor-pointer border ${
                       isActive
-                        ? "bg-white border-primary shadow-md ring-2 ring-primary/20 -translate-y-1"
-                        : "bg-white border-gray-100 shadow-xs hover:border-gray-200 hover:shadow-md hover:-translate-y-1"
+                        ? "bg-white dark:bg-neutral-800 border-primary shadow-md ring-2 ring-primary/20 -translate-y-1"
+                        : "bg-white dark:bg-[#161616] border-gray-100 dark:border-neutral-800 shadow-xs hover:border-gray-200 dark:hover:border-neutral-700 hover:shadow-md hover:-translate-y-1"
                     }`}
                   >
                     {/* Rounded Image with Emoji Tag */}
-                    <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-gray-100 shadow-inner">
+                    <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-gray-100 dark:bg-neutral-800 shadow-inner">
                       <Image
                         src={cat.image}
                         alt={cat.label}
@@ -373,16 +373,16 @@ export default function Menu() {
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
                         sizes="(max-width: 640px) 80px, 96px"
                       />
-                      <span className="absolute bottom-1 right-1 bg-white/95 backdrop-blur-xs text-xs px-1.5 py-0.5 rounded-lg shadow-xs">
+                      <span className="absolute bottom-1 right-1 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-xs text-xs px-1.5 py-0.5 rounded-lg shadow-xs">
                         {cat.emoji}
                       </span>
                     </div>
 
                     {/* Label & Item Count */}
-                    <p className="font-bold text-xs sm:text-sm text-gray-900 mt-2.5 truncate w-full text-center">
+                    <p className="font-bold text-xs sm:text-sm text-gray-900 dark:text-white mt-2.5 truncate w-full text-center">
                       {cat.label}
                     </p>
-                    <p className="text-[11px] font-medium text-gray-500 mt-0.5">
+                    <p className="text-[11px] font-medium text-gray-500 dark:text-gray-400 mt-0.5">
                       {cat.countLabel}
                     </p>
                   </button>
@@ -395,7 +395,7 @@ export default function Menu() {
               type="button"
               onClick={() => scrollCategorySlider("right")}
               aria-label="Scroll right"
-              className="hidden sm:flex absolute -right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white shadow-md border border-gray-100 items-center justify-center text-gray-700 hover:text-primary hover:border-primary/40 transition-all active:scale-95"
+              className="hidden sm:flex absolute -right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white dark:bg-neutral-800 shadow-md border border-gray-100 dark:border-neutral-700 items-center justify-center text-gray-700 dark:text-gray-200 hover:text-primary hover:border-primary/40 transition-all active:scale-95 cursor-pointer"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
             </button>
@@ -413,7 +413,7 @@ export default function Menu() {
                 <span className="w-1.5 h-1.5 rounded-full bg-primary inline-block" />
                 Customer Favorites
               </span>
-              <h2 className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white tracking-tight">
                 Popular Dishes
               </h2>
             </div>
@@ -446,7 +446,7 @@ export default function Menu() {
       ══════════════════════════════════════════════════════════════════════ */}
       <div id="full-menu" className="scroll-mt-28">
         {/* Sticky category & search bar */}
-        <div className="sticky top-[92px] z-40 bg-white/95 backdrop-blur-md border-y border-gray-100 shadow-xs">
+        <div className="sticky top-[72px] z-40 bg-white/95 dark:bg-[#121212]/95 backdrop-blur-md border-y border-gray-100 dark:border-neutral-800 shadow-xs transition-colors">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
               {/* Scrollable selector chips */}
@@ -460,7 +460,7 @@ export default function Menu() {
                   className={`flex-shrink-0 rounded-full px-4 py-1.5 text-xs font-bold border transition-all duration-200 cursor-pointer ${
                     activeCategory === "all"
                       ? "bg-primary text-white border-primary shadow-xs"
-                      : "bg-white text-gray-700 border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                      : "bg-white dark:bg-neutral-800 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-neutral-700 hover:border-gray-300 hover:bg-gray-50 dark:hover:bg-neutral-700"
                   }`}
                 >
                   All ({menuItems.length})
@@ -478,7 +478,7 @@ export default function Menu() {
                       className={`flex-shrink-0 rounded-full px-3.5 py-1.5 text-xs font-bold border transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
                         activeCategory === cat.id
                           ? "bg-primary text-white border-primary shadow-xs"
-                          : "bg-white text-gray-700 border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                          : "bg-white dark:bg-neutral-800 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-neutral-700 hover:border-gray-300 hover:bg-gray-50 dark:hover:bg-neutral-700"
                       }`}
                     >
                       <span>{cat.emoji}</span>
@@ -487,7 +487,7 @@ export default function Menu() {
                         className={`text-[10px] px-1.5 py-0.2 rounded-full font-semibold ${
                           activeCategory === cat.id
                             ? "bg-white/20 text-white"
-                            : "bg-gray-100 text-gray-500"
+                            : "bg-gray-100 dark:bg-neutral-700 text-gray-500 dark:text-gray-300"
                         }`}
                       >
                         {catCount}
@@ -504,7 +504,7 @@ export default function Menu() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search dishes..."
-                  className="w-full bg-gray-50 border border-gray-200 focus:border-primary focus:bg-white rounded-full pl-8 pr-8 py-1.5 text-xs text-gray-900 placeholder-gray-400 focus:outline-none transition-colors"
+                  className="w-full bg-gray-50 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 focus:border-primary focus:bg-white dark:focus:bg-neutral-900 rounded-full pl-8 pr-8 py-1.5 text-xs text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none transition-colors"
                 />
                 <svg
                   className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none"

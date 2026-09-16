@@ -6,6 +6,7 @@ import AnnouncementBar from "@/components/announcement-bar";
 import Footer from "@/components/footer";
 import { AuthProvider } from "@/lib/auth-context";
 import { CartProvider } from "@/lib/cart-context";
+import { ThemeProvider } from "@/lib/theme-context";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -31,16 +32,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${poppins.variable} scroll-smooth`}>
-      <body className="min-h-screen flex flex-col antialiased">
-        <AuthProvider>
-          <CartProvider>
-            <AnnouncementBar />
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </CartProvider>
-        </AuthProvider>
+    <html lang="en" className={`${poppins.variable} scroll-smooth`} suppressHydrationWarning>
+      <body className="min-h-screen flex flex-col antialiased bg-white dark:bg-[#0d0d0d] text-gray-900 dark:text-gray-100 transition-colors duration-300">
+        <ThemeProvider>
+          <AuthProvider>
+            <CartProvider>
+              <AnnouncementBar />
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </CartProvider>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
