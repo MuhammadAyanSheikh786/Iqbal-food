@@ -24,11 +24,11 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="bg-[#FAF7F2] dark:bg-[#161616] rounded-b-[32px] sm:rounded-b-[40px] overflow-hidden pt-4 sm:pt-8 pb-8 sm:pb-20 px-4 sm:px-8 border-b border-gray-100 dark:border-neutral-800 transition-colors"
+      className="bg-[#FAF7F2] dark:bg-[#161616] rounded-b-[32px] sm:rounded-b-[40px] overflow-hidden pt-2 sm:pt-8 pb-8 sm:pb-20 px-4 sm:px-8 border-b border-gray-100 dark:border-neutral-800 transition-colors"
     >
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 items-center">
-        {/* Left column */}
-        <div className="lg:col-span-6 space-y-4 sm:space-y-6 animate-fade-in-up text-center lg:text-left">
+        {/* Left column - hidden on mobile/short screens so hero starts with the food image */}
+        <div className="hidden lg:block lg:col-span-6 space-y-4 sm:space-y-6 animate-fade-in-up text-center lg:text-left">
           {/* Handwriting / italic badge */}
           <div>
             <span className="font-serif italic text-base sm:text-xl text-gray-700 dark:text-gray-300 select-none">

@@ -63,23 +63,8 @@ function ThemeToggle() {
   );
 }
 
-export default function Header() {
-  const { count, addItem } = useCart();
+function ProfileSection() {
   const { user, signInWithGoogle, signOut } = useAuth();
-  const pathname = usePathname();
-
-  // Mobile Drawer State
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
-  // Search Modal State
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const searchInputRef = useRef<HTMLInputElement>(null);
-
-  // About Us Modal State
-  const [aboutOpen, setAboutOpen] = useState(false);
-
-  // User Dropdown State
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
@@ -101,6 +86,169 @@ export default function Header() {
     };
   }, [userMenuOpen]);
 
+  // Close dropdown on Escape
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setUserMenuOpen(false);
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  return (
+    <div className="relative" ref={userMenuRef}>
+      {user ? (
+        <button
+          type="button"
+          onClick={() => setUserMenuOpen(!userMenuOpen)}
+          aria-label="User menu"
+          className="w-10 h-10 rounded-full border-2 border-primary/30 hover:border-primary flex items-center justify-center bg-red-50 dark:bg-red-950/40 text-primary font-bold text-sm transition-all duration-200 overflow-hidden cursor-pointer"
+        >
+          {user.name ? (
+            <span>{user.name.charAt(0).toUpperCase()}</span>
+          ) : (
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          )}
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={signInWithGoogle}
+          aria-label="Sign in with Google"
+          className="w-10 h-10 rounded-full text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary hover:bg-red-50 dark:hover:bg-neutral-800 flex items-center justify-center transition-all duration-200 cursor-pointer"
+          title="Sign in"
+        >
+          <svg
+            width="19"
+            height="19"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+        </button>
+      )}
+
+      {userMenuOpen && user && (
+        <div className="absolute top-full left-1/2 -translate-x-1/2 md:left-auto md:right-0 md:translate-x-0 mt-2 w-56 bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-xl border border-gray-100 dark:border-neutral-800 py-2 z-50 animate-fade-in-up">
+          <div className="px-4 py-2.5 border-b border-gray-100 dark:border-neutral-800">
+            <p className="text-xs font-bold text-gray-900 dark:text-white truncate">
+              {user.name || "Customer"}
+            </p>
+            <p className="text-[11px] text-gray-500 dark:text-gray-400 truncate">
+              {user.email}
+            </p>
+          </div>
+          <div className="py-1">
+            <Link
+              href="/my-orders"
+              onClick={() => setUserMenuOpen(false)}
+              className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-red-50 dark:hover:bg-neutral-800 hover:text-primary transition-colors"
+            >
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+              </svg>
+              My Orders
+            </Link>
+            {user.isAdmin && (
+              <Link
+                href="/admin"
+                onClick={() => setUserMenuOpen(false)}
+                className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-red-50 dark:hover:bg-neutral-800 hover:text-primary transition-colors"
+              >
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="3" y="3" width="7" height="7" />
+                  <rect x="14" y="3" width="7" height="7" />
+                  <rect x="14" y="14" width="7" height="7" />
+                  <rect x="3" y="14" width="7" height="7" />
+                </svg>
+                Admin Dashboard
+              </Link>
+            )}
+          </div>
+          <div className="border-t border-gray-100 dark:border-neutral-800 pt-1">
+            <button
+              type="button"
+              onClick={() => {
+                signOut();
+                setUserMenuOpen(false);
+              }}
+              className="w-full text-left flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-neutral-800 transition-colors"
+            >
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </svg>
+              Sign Out
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function Header() {
+  const { count, addItem } = useCart();
+  const { user, signInWithGoogle, signOut } = useAuth();
+  const pathname = usePathname();
+
+  // Mobile Drawer State
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // Search Modal State
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // About Us Modal State
+  const [aboutOpen, setAboutOpen] = useState(false);
+
   // Focus search input when search modal opens
   useEffect(() => {
     if (searchOpen) {
@@ -119,7 +267,6 @@ export default function Header() {
         setSearchOpen(false);
         setAboutOpen(false);
         setDrawerOpen(false);
-        setUserMenuOpen(false);
       }
     }
     window.addEventListener("keydown", handleKeyDown);
@@ -140,10 +287,86 @@ export default function Header() {
 
   const isHome = pathname === "/";
 
+  const searchButton = (
+    <button
+      type="button"
+      onClick={() => setSearchOpen(true)}
+      aria-label="Search menu"
+      className="w-10 h-10 rounded-full text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary hover:bg-red-50 dark:hover:bg-neutral-800 flex items-center justify-center transition-all duration-200 cursor-pointer"
+    >
+      <svg
+        width="19"
+        height="19"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+    </button>
+  );
+
+  const cartButton = (
+    <Link
+      href="/cart"
+      aria-label="View Cart"
+      className="relative flex items-center justify-center w-10 h-10 rounded-full hover:bg-red-50 dark:hover:bg-neutral-800 text-gray-700 dark:text-gray-200 hover:text-primary transition-all duration-200"
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <path d="M16 10a4 4 0 0 1-8 0" />
+      </svg>
+      {count > 0 && (
+        <span className="absolute -top-0.5 -right-0.5 min-w-[20px] h-[20px] rounded-full bg-primary text-white text-[10px] font-black flex items-center justify-center px-1 shadow-md shadow-red-300 animate-fade-in-up">
+          {count > 99 ? "99+" : count}
+        </span>
+      )}
+    </Link>
+  );
+
+  const hamburgerButton = (
+    <button
+      type="button"
+      aria-label="Toggle navigation drawer"
+      onClick={() => setDrawerOpen(!drawerOpen)}
+      className="relative flex flex-col items-center justify-center w-10 h-10 rounded-full hover:bg-red-50 dark:hover:bg-neutral-800 transition-all duration-200 cursor-pointer"
+    >
+      <span
+        className={`w-5 h-[2px] bg-gray-800 dark:bg-gray-200 rounded-full transition-all duration-300 absolute ${
+          drawerOpen ? "rotate-45 bg-primary" : "-translate-y-[5px]"
+        }`}
+      />
+      <span
+        className={`w-4 h-[2px] bg-gray-800 dark:bg-gray-200 rounded-full transition-all duration-300 absolute ml-[4px] ${
+          drawerOpen ? "opacity-0 translate-x-4" : "opacity-100"
+        }`}
+      />
+      <span
+        className={`w-5 h-[2px] bg-gray-800 dark:bg-gray-200 rounded-full transition-all duration-300 absolute ${
+          drawerOpen ? "-rotate-45 bg-primary" : "translate-y-[5px]"
+        }`}
+      />
+    </button>
+  );
+
   return (
     <>
       <header className="sticky top-0 z-50 w-full bg-white/95 dark:bg-[#121212]/95 backdrop-blur-md border-b border-gray-100 dark:border-neutral-800 shadow-sm transition-colors">
-        <div className="h-16 sm:h-[72px] flex items-center justify-between px-4 sm:px-8 max-w-7xl mx-auto">
+        <div className="h-16 sm:h-[72px] flex items-center justify-center md:justify-between px-4 sm:px-8 max-w-7xl mx-auto">
           {/* ── Left: Logo ── */}
           <Link
             href="/"
@@ -209,221 +432,22 @@ export default function Header() {
             </Link>
           </nav>
 
-          {/* ── Right: Search + Theme Toggle + Profile + Cart + Hamburger ── */}
-          <div className="flex items-center gap-1 sm:gap-2">
-            {/* Search Button */}
-            <button
-              type="button"
-              onClick={() => setSearchOpen(true)}
-              aria-label="Search menu"
-              className="w-10 h-10 rounded-full text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary hover:bg-red-50 dark:hover:bg-neutral-800 flex items-center justify-center transition-all duration-200 cursor-pointer"
-            >
-              <svg
-                width="19"
-                height="19"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-            </button>
-
-            {/* Light / Dark Mode Toggle */}
+          {/* ── Right: Actions (Desktop) ── */}
+          <div className="hidden md:flex items-center gap-1 sm:gap-2">
+            {searchButton}
             <ThemeToggle />
-
-            {/* User Profile / Sign In */}
-            <div className="relative" ref={userMenuRef}>
-              {user ? (
-                <button
-                  type="button"
-                  onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  aria-label="User menu"
-                  className="w-10 h-10 rounded-full border-2 border-primary/30 hover:border-primary flex items-center justify-center bg-red-50 dark:bg-red-950/40 text-primary font-bold text-sm transition-all duration-200 overflow-hidden cursor-pointer"
-                >
-                  {user.name ? (
-                    <span>{user.name.charAt(0).toUpperCase()}</span>
-                  ) : (
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                      <circle cx="12" cy="7" r="4" />
-                    </svg>
-                  )}
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={signInWithGoogle}
-                  aria-label="Sign in with Google"
-                  className="w-10 h-10 rounded-full text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary hover:bg-red-50 dark:hover:bg-neutral-800 flex items-center justify-center transition-all duration-200 cursor-pointer"
-                  title="Sign in"
-                >
-                  <svg
-                    width="19"
-                    height="19"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                  </svg>
-                </button>
-              )}
-
-              {/* Profile Dropdown Menu */}
-              {userMenuOpen && user && (
-                <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-xl border border-gray-100 dark:border-neutral-800 py-2 z-50 animate-fade-in-up">
-                  <div className="px-4 py-2.5 border-b border-gray-100 dark:border-neutral-800">
-                    <p className="text-xs font-bold text-gray-900 dark:text-white truncate">
-                      {user.name || "Customer"}
-                    </p>
-                    <p className="text-[11px] text-gray-500 dark:text-gray-400 truncate">
-                      {user.email}
-                    </p>
-                  </div>
-                  <div className="py-1">
-                    <Link
-                      href="/my-orders"
-                      onClick={() => setUserMenuOpen(false)}
-                      className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-red-50 dark:hover:bg-neutral-800 hover:text-primary transition-colors"
-                    >
-                      <svg
-                        width="15"
-                        height="15"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
-                      </svg>
-                      My Orders
-                    </Link>
-                    {user.isAdmin && (
-                      <Link
-                        href="/admin"
-                        onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-red-50 dark:hover:bg-neutral-800 hover:text-primary transition-colors"
-                      >
-                        <svg
-                          width="15"
-                          height="15"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <rect x="3" y="3" width="7" height="7" />
-                          <rect x="14" y="3" width="7" height="7" />
-                          <rect x="14" y="14" width="7" height="7" />
-                          <rect x="3" y="14" width="7" height="7" />
-                        </svg>
-                        Admin Dashboard
-                      </Link>
-                    )}
-                  </div>
-                  <div className="border-t border-gray-100 dark:border-neutral-800 pt-1">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        signOut();
-                        setUserMenuOpen(false);
-                      }}
-                      className="w-full text-left flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-neutral-800 transition-colors"
-                    >
-                      <svg
-                        width="15"
-                        height="15"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                        <polyline points="16 17 21 12 16 7" />
-                        <line x1="21" y1="12" x2="9" y2="12" />
-                      </svg>
-                      Sign Out
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Cart Button */}
-            <Link
-              href="/cart"
-              aria-label="View Cart"
-              className="relative flex items-center justify-center w-10 h-10 rounded-full hover:bg-red-50 dark:hover:bg-neutral-800 text-gray-700 dark:text-gray-200 hover:text-primary transition-all duration-200"
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <path d="M16 10a4 4 0 0 1-8 0" />
-              </svg>
-              {count > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[20px] h-[20px] rounded-full bg-primary text-white text-[10px] font-black flex items-center justify-center px-1 shadow-md shadow-red-300 animate-fade-in-up">
-                  {count > 99 ? "99+" : count}
-                </span>
-              )}
-            </Link>
-
-            {/* Mobile Hamburger Button */}
-            <button
-              type="button"
-              aria-label="Toggle navigation drawer"
-              onClick={() => setDrawerOpen(!drawerOpen)}
-              className="md:hidden relative flex flex-col items-center justify-center w-10 h-10 rounded-full hover:bg-red-50 dark:hover:bg-neutral-800 transition-all duration-200 cursor-pointer"
-            >
-              <span
-                className={`w-5 h-[2px] bg-gray-800 dark:bg-gray-200 rounded-full transition-all duration-300 absolute ${
-                  drawerOpen ? "rotate-45 bg-primary" : "-translate-y-[5px]"
-                }`}
-              />
-              <span
-                className={`w-4 h-[2px] bg-gray-800 dark:bg-gray-200 rounded-full transition-all duration-300 absolute ml-[4px] ${
-                  drawerOpen ? "opacity-0 translate-x-4" : "opacity-100"
-                }`}
-              />
-              <span
-                className={`w-5 h-[2px] bg-gray-800 dark:bg-gray-200 rounded-full transition-all duration-300 absolute ${
-                  drawerOpen ? "-rotate-45 bg-primary" : "translate-y-[5px]"
-                }`}
-              />
-            </button>
+            <ProfileSection />
+            {cartButton}
           </div>
+        </div>
+
+        {/* ── Second Row (Mobile): Search + Theme + Profile + Cart + Hamburger ── */}
+        <div className="md:hidden flex items-center justify-around px-4 py-1.5 border-t border-gray-100 dark:border-neutral-800 bg-white/95 dark:bg-[#121212]/95 backdrop-blur-md">
+          {searchButton}
+          <ThemeToggle />
+          <ProfileSection />
+          {cartButton}
+          {hamburgerButton}
         </div>
       </header>
 

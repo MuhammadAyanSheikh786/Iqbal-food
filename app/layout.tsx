@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
-import AnnouncementBar from "@/components/announcement-bar";
 import Footer from "@/components/footer";
 import { AuthProvider } from "@/lib/auth-context";
 import { CartProvider } from "@/lib/cart-context";
@@ -37,7 +36,6 @@ export default function RootLayout({
         <ThemeProvider>
           <AuthProvider>
             <CartProvider>
-              <AnnouncementBar />
               <Header />
               <main className="flex-1">{children}</main>
               <Footer />
