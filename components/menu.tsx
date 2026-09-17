@@ -164,7 +164,7 @@ function FoodCard({ item, isFavorite, onToggleFavorite }: FoodCardProps) {
       </div>
 
       {/* Title */}
-      <h4 className="font-bold text-sm text-gray-900 dark:text-white truncate mt-2" title={item.name}>
+      <h4 className="font-bold text-sm text-gray-900 dark:text-white line-clamp-2 leading-snug mt-2" title={item.name}>
         {item.name}
       </h4>
 
